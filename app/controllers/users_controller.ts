@@ -65,6 +65,7 @@ export default class UsersController {
    */
   async store({ request, auth, response }: HttpContext) {
     try {
+      await auth.authenticate()
       // Tentar diferentes formas de pegar os dados
       const payload = request.only(['nome', 'email', 'password', 'ativo'])
       const allBody = request.all()
