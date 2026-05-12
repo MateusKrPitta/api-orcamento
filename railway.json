@@ -4,6 +4,11 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
+    "numReplicas": 1,
+    "sleepApplication": false,
+    "env": {
+      "NIXPACKS_NODE_VERSION": "22"
+    },
     "startCommand": "node build/ace.js migration:run --force && node build/ace.js db:seed && node build/bin/server.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
