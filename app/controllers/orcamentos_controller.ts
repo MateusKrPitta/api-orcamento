@@ -5,20 +5,6 @@ import Cliente from '#models/cliente'
 import { createOrcamentoValidator, updateOrcamentoValidator } from '#validators/orcamento'
 import { DateTime } from 'luxon'
 
-// Interface para tipagem dos itens do orçamento
-interface ItemOrcamentoPayload {
-  produto_id?: number
-  produto_nome: string
-  quantidade: number
-  preco_unitario: number
-  observacoes?: string
-  tipo_item?: string
-  item_principal_id?: number | string
-  grupo_id?: string
-  ordem_exibicao?: number
-  temp_id?: string
-  subtotal: number
-}
 
 export default class OrcamentosController {
   /**

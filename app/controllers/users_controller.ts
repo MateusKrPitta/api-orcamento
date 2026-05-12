@@ -8,7 +8,7 @@ export default class UsersController {
    */
   async index({ auth, response, request }: HttpContext) {
     try {
-      const currentUser = await auth.authenticate()
+      await auth.authenticate()
 
       // Se quiser restringir apenas para admin, descomente:
       // if (!currentUser.isAdmin) {
@@ -65,12 +65,9 @@ export default class UsersController {
    */
   async store({ request, auth, response }: HttpContext) {
     try {
-      const currentUser = await auth.authenticate()
-
       // Tentar diferentes formas de pegar os dados
       const payload = request.only(['nome', 'email', 'password', 'ativo'])
       const allBody = request.all()
-      const body = request.body()
 
       // Verificar cada campo individualmente
       const nomeInput = request.input('nome')
@@ -187,7 +184,7 @@ export default class UsersController {
    */
   async show({ params, auth, response }: HttpContext) {
     try {
-      const currentUser = await auth.authenticate()
+      await auth.authenticate()
       const id = Number(params.id)
 
       if (Number.isNaN(id) || id <= 0) {
@@ -240,7 +237,7 @@ export default class UsersController {
    */
   async update({ params, request, auth, response }: HttpContext) {
     try {
-      const currentUser = await auth.authenticate()
+      await auth.authenticate()
       const id = Number(params.id)
 
       if (Number.isNaN(id) || id <= 0) {

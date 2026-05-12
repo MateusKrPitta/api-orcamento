@@ -12,17 +12,17 @@ export default class extends BaseSeeder {
     // Criar usuários de teste
     await User.createMany([
       {
-        fullName: 'Mateus',
+        nome: 'Mateus',
         email: 'mateus@email.com',
         password: '123456',
       },
       {
-        fullName: 'Luan',
+        nome: 'Luan',
         email: 'luan@email.com',
         password: '123456',
       },
       {
-        fullName: 'Renato',
+        nome: 'Renato',
         email: 'renato@email.com',
         password: '123456',
       },
