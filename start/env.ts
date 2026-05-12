@@ -29,4 +29,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_PASSWORD: Env.schema.string.optional(),
   DB_DATABASE: Env.schema.string.optional(),
   DATABASE_URL: Env.schema.string.optional(),
+  PGHOST: Env.schema.string.optional(),
+  PGPORT: Env.schema.number.optional(),
+  PGUSER: Env.schema.string.optional(),
+  PGPASSWORD: Env.schema.string.optional(),
+  PGDATABASE: Env.schema.string.optional(),
 })

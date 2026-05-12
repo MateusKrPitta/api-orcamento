@@ -124,8 +124,8 @@ router
   })
   .use(middleware.auth())
 
-// ========== ROTA 404 ==========
-router.any('*', async ({ response }) => {
+// ========== ROTA 404 (Apenas para GET) ==========
+router.get('*', async ({ response }) => {
   return response.status(404).json({
     error: 'Rota não encontrada',
   })
