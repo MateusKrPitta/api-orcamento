@@ -14,7 +14,7 @@ const createOrcamentoSchema = vine.object({
   categoria_id: vine.number().optional().nullable(),
   responsavel_nome: vine.string().trim().optional().nullable(),
   responsavel_telefone: vine.string().trim().optional().nullable(),
-  responsavel_email: vine.string().email().trim().optional().nullable(),
+  responsavel_email: vine.string().trim().optional().nullable(),
   validade: vine.string().optional().nullable(),
   desconto: vine.number().optional().nullable(), // REMOVIDO .default(0)
   imposto: vine.number().optional().nullable(), // REMOVIDO .default(0)
@@ -79,7 +79,7 @@ const updateOrcamentoSchema = vine.object({
   categoria_id: vine.number().optional().nullable(),
   responsavel_nome: vine.string().trim().optional().nullable(),
   responsavel_telefone: vine.string().trim().optional().nullable(),
-  responsavel_email: vine.string().email().trim().optional().nullable(),
+  responsavel_email: vine.string().trim().optional().nullable(),
   validade: vine.string().optional().nullable(),
   desconto: vine.number().optional().nullable(),
   imposto: vine.number().optional().nullable(),

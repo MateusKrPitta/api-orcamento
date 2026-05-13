@@ -93,13 +93,6 @@ export default class ClientesController {
         })
       }
 
-      // Validar formato do email se fornecido
-      if (payload.email && !payload.email.includes('@')) {
-        return response.badRequest({
-          success: false,
-          message: 'Email inválido',
-        })
-      }
 
       const cliente = await Cliente.create({
         userId: currentUser.id,
@@ -167,13 +160,6 @@ export default class ClientesController {
         })
       }
 
-      // Validar formato do email se fornecido
-      if (payload.email !== undefined && payload.email && !payload.email.includes('@')) {
-        return response.badRequest({
-          success: false,
-          message: 'Email inválido',
-        })
-      }
 
       // Atualizar apenas os campos fornecidos
       if (payload.nome !== undefined) cliente.nome = payload.nome
