@@ -6,11 +6,8 @@ export default class extends BaseSeeder {
   async run() {
     // Write your database queries inside the run method
 
-    // Deletar usuários existentes (opcional)
-    await User.truncate(true)
-
-    // Criar usuários de teste
-    await User.createMany([
+    // Criar ou atualizar usuários de teste
+    const users = [
       {
         nome: 'Mateus',
         email: 'mateus@email.com',
@@ -26,6 +23,10 @@ export default class extends BaseSeeder {
         email: 'renato@email.com',
         password: '123456',
       },
-    ])
+    ]
+
+    for (const userData of users) {
+      await User.updateOrCreate({ email: userData.email }, userData)
+    }
   }
 }
