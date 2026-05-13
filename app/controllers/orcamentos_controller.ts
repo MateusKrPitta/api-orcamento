@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Orcamento from '#models/orcamento'
 import OrcamentoItem from '#models/orcamento_item'
 import Cliente from '#models/cliente'
+import Categoria from '#models/categoria'
 import { createOrcamentoValidator, updateOrcamentoValidator } from '#validators/orcamento'
 import { DateTime } from 'luxon'
 
@@ -308,6 +309,21 @@ export default class OrcamentosController {
         })
       }
 
+      // Buscar categoria (se fornecida)
+      if (payload.categoria_id) {
+        const categoria = await Categoria.query()
+          .where('id', payload.categoria_id)
+          .andWhere('user_id', currentUser.id)
+          .first()
+
+        if (!categoria) {
+          return response.badRequest({
+            success: false,
+            message: 'Categoria não encontrada',
+          })
+        }
+      }
+
       // Gerar próximo número
       const ultimoOrcamento = await Orcamento.query()
         .where('user_id', currentUser.id)
@@ -472,6 +488,16 @@ export default class OrcamentosController {
       })
     } catch (error) {
       console.error('Erro ao criar orçamento:', error)
+
+      // Se for erro de validação (VineJS)
+      if (error.messages) {
+        return response.unprocessableEntity({
+          success: false,
+          message: 'Erro de validação nos dados enviados',
+          errors: error.messages,
+        })
+      }
+
       return response.internalServerError({
         success: false,
         message: 'Erro ao criar orçamento',
@@ -538,9 +564,26 @@ export default class OrcamentosController {
         orcamento.clienteEmail = novoCliente.email
       }
 
+      // Atualizar categoria se fornecida e for diferente
+      if (payload.categoria_id && payload.categoria_id !== orcamento.categoriaId) {
+        const novaCategoria = await Categoria.query()
+          .where('id', payload.categoria_id)
+          .andWhere('user_id', currentUser.id)
+          .first()
+
+        if (!novaCategoria) {
+          return response.badRequest({
+            success: false,
+            message: 'Nova categoria não encontrada',
+          })
+        }
+        orcamento.categoriaId = novaCategoria.id
+      } else if (payload.categoria_id === null) {
+        orcamento.categoriaId = null
+      }
+
       // Atualizar campos básicos
       if (payload.status) orcamento.status = payload.status
-      if (payload.categoria_id !== undefined) orcamento.categoriaId = payload.categoria_id
 
       if (payload.responsavel_nome !== undefined)
         orcamento.responsavelNome = payload.responsavel_nome
@@ -723,6 +766,16 @@ export default class OrcamentosController {
       })
     } catch (error) {
       console.error('Erro ao atualizar orçamento:', error)
+
+      // Se for erro de validação (VineJS)
+      if (error.messages) {
+        return response.unprocessableEntity({
+          success: false,
+          message: 'Erro de validação nos dados enviados',
+          errors: error.messages,
+        })
+      }
+
       return response.internalServerError({
         success: false,
         message: 'Erro ao atualizar orçamento',
