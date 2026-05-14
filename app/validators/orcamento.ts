@@ -21,11 +21,20 @@ const createOrcamentoSchema = vine.object({
   frete: vine.number().optional().nullable(), // REMOVIDO .default(0)
   observacoes: vine.string().trim().optional().nullable(),
   forma_pagamento_tipo: vine
-    .enum(['dinheiro', 'cartao_credito', 'cartao_debito', 'pix', 'transferencia'])
+    .enum([
+      'dinheiro',
+      'cartao_credito',
+      'cartao_debito',
+      'pix',
+      'transferencia',
+      'deposito_bancario',
+    ])
     .optional()
     .nullable(),
   prazo_entrega: vine.string().optional().nullable(),
   forma_pagamento_observacoes: vine.string().trim().optional().nullable(),
+  data_pagamento: vine.string().optional().nullable(),
+  numero_conta: vine.string().trim().optional().nullable(),
 
   // NOVA ESTRUTURA DE ITENS
   itens_principais: vine
@@ -86,11 +95,20 @@ const updateOrcamentoSchema = vine.object({
   frete: vine.number().optional().nullable(),
   observacoes: vine.string().trim().optional().nullable(),
   forma_pagamento_tipo: vine
-    .enum(['dinheiro', 'cartao_credito', 'cartao_debito', 'pix', 'transferencia'])
+    .enum([
+      'dinheiro',
+      'cartao_credito',
+      'cartao_debito',
+      'pix',
+      'transferencia',
+      'deposito_bancario',
+    ])
     .optional()
     .nullable(),
   prazo_entrega: vine.string().optional().nullable(),
   forma_pagamento_observacoes: vine.string().trim().optional().nullable(),
+  data_pagamento: vine.string().optional().nullable(),
+  numero_conta: vine.string().trim().optional().nullable(),
 
   // MESMA ESTRUTURA PARA UPDATE
   itens_principais: vine

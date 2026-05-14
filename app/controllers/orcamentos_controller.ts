@@ -391,6 +391,8 @@ export default class OrcamentosController {
         formaPagamentoTipo: payload.forma_pagamento_tipo || null,
         prazoEntrega: payload.prazo_entrega ? DateTime.fromISO(payload.prazo_entrega) : null,
         formaPagamentoObservacoes: payload.forma_pagamento_observacoes || null,
+        dataPagamento: payload.data_pagamento ? DateTime.fromISO(payload.data_pagamento) : null,
+        numeroConta: payload.numero_conta || null,
       })
 
       console.log('\n' + '='.repeat(50))
@@ -621,6 +623,19 @@ export default class OrcamentosController {
 
       if (payload.forma_pagamento_observacoes !== undefined)
         orcamento.formaPagamentoObservacoes = payload.forma_pagamento_observacoes
+
+      if (payload.data_pagamento !== undefined) {
+        if (payload.data_pagamento) {
+          const dataPagamentoDate = DateTime.fromISO(payload.data_pagamento)
+          if (dataPagamentoDate.isValid) {
+            orcamento.dataPagamento = dataPagamentoDate
+          }
+        } else {
+          orcamento.dataPagamento = null
+        }
+      }
+
+      if (payload.numero_conta !== undefined) orcamento.numeroConta = payload.numero_conta
 
       // DEPOIS (corrigido)
       if (payload.desconto !== undefined) {
@@ -1336,6 +1351,8 @@ export default class OrcamentosController {
             tipo: orcamento.formaPagamentoTipo,
             prazo_entrega: orcamento.prazoEntrega,
             observacoes: orcamento.formaPagamentoObservacoes,
+            data_pagamento: orcamento.dataPagamento,
+            numero_conta: orcamento.numeroConta,
           }
         : null,
       created_at: orcamento.createdAt,

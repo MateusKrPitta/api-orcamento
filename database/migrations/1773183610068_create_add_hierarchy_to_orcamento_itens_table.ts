@@ -5,24 +5,33 @@ export default class extends BaseSchema {
   protected tableName = 'orcamento_itens'
 
   async up() {
+    const hasTipoItem = await this.schema.hasColumn(this.tableName, 'tipo_item')
+    const hasItemPrincipalId = await this.schema.hasColumn(this.tableName, 'item_principal_id')
+    const hasOrdemExibicao = await this.schema.hasColumn(this.tableName, 'ordem_exibicao')
+    const hasGrupoId = await this.schema.hasColumn(this.tableName, 'grupo_id')
+
     this.schema.alterTable(this.tableName, (table) => {
-      // Adicionar coluna para tipo do item
-      table.string('tipo_item', 20).nullable().defaultTo('avulso')
+      if (!hasTipoItem) {
+        table.string('tipo_item', 20).nullable().defaultTo('avulso')
+      }
 
-      // Adicionar coluna para referenciar o item principal
-      table
-        .integer('item_principal_id')
-        .unsigned()
-        .nullable()
-        .references('id')
-        .inTable(this.tableName)
-        .onDelete('CASCADE')
+      if (!hasItemPrincipalId) {
+        table
+          .integer('item_principal_id')
+          .unsigned()
+          .nullable()
+          .references('id')
+          .inTable(this.tableName)
+          .onDelete('CASCADE')
+      }
 
-      // Adicionar coluna para ordem de exibição
-      table.integer('ordem_exibicao').nullable().defaultTo(0)
+      if (!hasOrdemExibicao) {
+        table.integer('ordem_exibicao').nullable().defaultTo(0)
+      }
 
-      // Adicionar coluna para grupo
-      table.string('grupo_id', 50).nullable()
+      if (!hasGrupoId) {
+        table.string('grupo_id', 50).nullable()
+      }
     })
   }
 

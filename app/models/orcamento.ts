@@ -80,6 +80,12 @@ export default class Orcamento extends BaseModel {
   @column()
   declare formaPagamentoObservacoes: string | null
 
+  @column.dateTime()
+  declare dataPagamento: DateTime | null
+
+  @column()
+  declare numeroConta: string | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
