@@ -43,6 +43,7 @@ export default class OrcamentosController {
             .where('orcamentos.cliente_nome', 'ILIKE', `%${search}%`)
             .orWhere('orcamentos.cliente_telefone', 'ILIKE', `%${search}%`)
             .orWhere('orcamentos.cliente_email', 'ILIKE', `%${search}%`)
+            .orWhereRaw('CAST(orcamentos.numero AS TEXT) ILIKE ?', [`%${search}%`])
             .orWhere((subBuilder) => {
               subBuilder.whereExists((existsBuilder) => {
                 existsBuilder
@@ -238,7 +239,7 @@ export default class OrcamentosController {
       } else if (numeroOrcamento && numeroOrcamento.trim() !== '') {
         const numero = Number.parseInt(numeroOrcamento)
         if (!Number.isNaN(numero)) {
-          query.where('numero', numero)
+          query.whereRaw('CAST(numero AS TEXT) LIKE ?', [`%${numero}%`])
         } else {
           return response.badRequest({
             success: false,
@@ -330,7 +331,7 @@ export default class OrcamentosController {
         .orderBy('numero', 'desc')
         .first()
 
-      const proximoNumero = ultimoOrcamento ? ultimoOrcamento.numero + 1 : 1
+      const proximoNumero = ultimoOrcamento ? Math.max(ultimoOrcamento.numero + 1, 20260511) : 20260511
 
       // Calcular subtotal total
       let subtotalTotal = 0
